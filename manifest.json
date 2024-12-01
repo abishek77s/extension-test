@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Studio Enhancer",
+  "version": "1.0",
+  "description": "Enhances YouTube Studio with additional features.",
+  "content_scripts": [
+    {
+      "matches": ["https://studio.youtube.com/*"],
+      "js": [
+        "content/injectStyles.js",
+        "content/domUtils.js",
+        "content/uiControls.js",
+        "content/apiService.js",
+        "content/toastManager.js",
+        "content/enhanceDialog.js",
+        "content/responseHandler.js",
+        "content/buttonManager.js",
+        "content/messageHandler.js",
+        "content/tagInjector.js",
+        "content/main.js"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["styles.css"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "permissions": ["scripting", "activeTab"]
+}
