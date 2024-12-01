@@ -24,7 +24,7 @@ async function handleGeneration(button, contentType) {
           updateSuccess = await responseHandler.updateTitleField(response.data);
           break;
         case 'description':
-          updateSuccess = await responseHandler.updateDescriptionField(response.data);
+          updateSuccess = await responseHandler.updateDescriptionField(response.data, false);
           break;
         case 'tags':
           updateSuccess = await responseHandler.updateTagsField(response.data);
@@ -33,6 +33,7 @@ async function handleGeneration(button, contentType) {
 
       if (updateSuccess) {
         toastManager.show(`${contentType} generated successfully!`, 'success');
+        buttonManager.replaceWithRegenerateButton(button, contentType, contentType);
       } else {
         toastManager.show(`Error: Could not find ${contentType} input field`, 'error');
       }
@@ -100,4 +101,55 @@ async function handleEnhancement(button, contentType) {
   }
 }
 
-window.messageHandler = { handleGeneration, handleEnhancement };
+async function handleRegeneration(button, contentType) {
+  try {
+    if (!button) {
+      toastManager.show('Internal error: Button not found', 'error');
+      return;
+    }
+
+    uiControls.setButtonLoading(button, true);
+
+    const videoLink = domUtils.getVideoLink();
+    if (!videoLink) {
+      toastManager.show('Could not find video link', 'error');
+      return;
+    }
+
+    const choice = { title: 1, description: 2, tags: 3 }[contentType.toLowerCase()] || 1;
+    const response = await apiService.generateContent(videoLink, choice);
+
+    if (response.success) {
+      let updateSuccess = false;
+      
+      switch(contentType.toLowerCase()) {
+        case 'title':
+          updateSuccess = await responseHandler.updateTitleField(response.data);
+          break;
+        case 'description':
+          updateSuccess = await responseHandler.updateDescriptionField(response.data, false);
+          break;
+        case 'tags':
+          updateSuccess = await responseHandler.updateTagsField(response.data);
+          break;
+      }
+
+      if (updateSuccess) {
+        toastManager.show(`${contentType} regenerated successfully!`, 'success');
+      } else {
+        toastManager.show(`Error: Could not find ${contentType} input field`, 'error');
+      }
+    } else {
+      toastManager.show(`Error regenerating ${contentType}`, 'error');
+    }
+  } catch (error) {
+    console.error('Regeneration error:', error);
+    toastManager.show(`Unexpected error regenerating ${contentType}`, 'error');
+  } finally {
+    if (button) {
+      uiControls.setButtonLoading(button, false);
+    }
+  }
+}
+
+window.messageHandler = { handleGeneration, handleEnhancement, handleRegeneration };

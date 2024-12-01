@@ -8,6 +8,8 @@ const enhanceDialog = {
     }
 
     const dialog = domUtils.createElement('div', 'enhance-dialog');
+    const buttonRect = event.target.getBoundingClientRect();
+    
     dialog.innerHTML = `
       <div class="dialog-content">
         <h3>Enhance ${contentType}</h3>
@@ -17,7 +19,7 @@ const enhanceDialog = {
             <label for="keepExisting">Keep existing content and append new content</label>
           </div>
         ` : ''}
-        <textarea class="prompt-input" placeholder="Enter your enhancement instructions...">${currentContent || ''}</textarea>
+        <textarea class="prompt-input" placeholder="Enter your enhancement instructions..."></textarea>
         <div class="dialog-buttons">
           <button class="cancel-button">Cancel</button>
           <button class="enhance-button">Enhance</button>
@@ -44,12 +46,10 @@ const enhanceDialog = {
 
     cancelButton.addEventListener('click', closeDialog);
 
-    // Close on background click
-    dialog.addEventListener('click', (e) => {
-      if (e.target === dialog) {
-        closeDialog();
-      }
-    });
+    // Position dialog near the button
+    dialog.style.position = 'absolute';
+    dialog.style.top = `${buttonRect.bottom + 10}px`;
+    dialog.style.left = `${buttonRect.left}px`;
 
     document.body.appendChild(dialog);
     promptInput.focus();

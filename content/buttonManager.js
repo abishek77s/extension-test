@@ -14,6 +14,14 @@ const buttonManager = {
     return button;
   },
 
+  createRegenerateButton(text, contentType) {
+    const button = uiControls.createButton(`Regenerate ${text}`, function() {
+      messageHandler.handleRegeneration(this, contentType);
+    });
+    button.classList.add('regenerate-button');
+    return button;
+  },
+
   createButtonGroup(...buttons) {
     const group = domUtils.createElement('div', 'button-group');
     buttons.forEach(button => group.appendChild(button));
@@ -22,6 +30,12 @@ const buttonManager = {
 
   injectButtons(container, buttonGroup) {
     container.appendChild(buttonGroup);
+  },
+
+  replaceWithRegenerateButton(originalButton, text, contentType) {
+    const regenerateButton = this.createRegenerateButton(text, contentType);
+    originalButton.parentNode.replaceChild(regenerateButton, originalButton);
+    return regenerateButton;
   }
 };
 
