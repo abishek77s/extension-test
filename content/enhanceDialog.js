@@ -2,11 +2,9 @@
 const enhanceDialog = {
   createDialog(contentType, currentContent, onEnhance) {
     // Remove any existing dialogs
-    const existingDialog = document.querySelector('.enhance-dialog');
-    if (existingDialog) {
-      existingDialog.remove();
-    }
+    this.removeExistingDialog();
 
+    const backdrop = domUtils.createElement('div', 'dialog-backdrop');
     const dialog = domUtils.createElement('div', 'enhance-dialog');
     const buttonRect = event.target.getBoundingClientRect();
     
@@ -32,7 +30,14 @@ const enhanceDialog = {
     const cancelButton = dialog.querySelector('.cancel-button');
     const keepExisting = dialog.querySelector('#keepExisting');
 
-    const closeDialog = () => dialog.remove();
+    const closeDialog = () => {
+      dialog.classList.remove('show');
+      backdrop.classList.remove('show');
+      setTimeout(() => {
+        dialog.remove();
+        backdrop.remove();
+      }, 300);
+    };
 
     enhanceButton.addEventListener('click', () => {
       const userPrompt = promptInput.value.trim();
@@ -45,14 +50,35 @@ const enhanceDialog = {
     });
 
     cancelButton.addEventListener('click', closeDialog);
+    backdrop.addEventListener('click', closeDialog);
 
     // Position dialog near the button
-    dialog.style.position = 'absolute';
-    dialog.style.top = `${buttonRect.bottom + 10}px`;
+    dialog.style.position = 'fixed';
+    dialog.style.top = `${buttonRect.top}px`;
     dialog.style.left = `${buttonRect.left}px`;
 
+    document.body.appendChild(backdrop);
     document.body.appendChild(dialog);
+
+    // Trigger animations
+    requestAnimationFrame(() => {
+      backdrop.classList.add('show');
+      dialog.classList.add('show');
+    });
+
     promptInput.focus();
+  },
+
+  removeExistingDialog() {
+    const existingDialog = document.querySelector('.enhance-dialog');
+    const existingBackdrop = document.querySelector('.dialog-backdrop');
+    
+    if (existingDialog) {
+      existingDialog.remove();
+    }
+    if (existingBackdrop) {
+      existingBackdrop.remove();
+    }
   }
 };
 

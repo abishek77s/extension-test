@@ -28,13 +28,34 @@ const responseHandler = {
   async updateTagsField(tags) {
     const tagsInput = domUtils.querySelector(domUtils.SELECTORS.TAGS_INPUT);
     if (tagsInput) {
-      const tagList = tags.split(',').map(tag => tag.trim());
-      for (const tag of tagList) {
-        tagsInput.value = tag;
+      if (typeof tags === 'string') {
+        // First, clear any existing value
+        tagsInput.value = '';
         this.triggerInputEvents(tagsInput);
-        tagsInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+
+        // Get all tags as a single string
+        const tagList = tags.split(',')
+          .map(tag => tag.trim())
+          .filter(tag => tag);
+
+        // Set the full tag string and trigger input event
+        tagsInput.value = tagList.join(', ');
+        this.triggerInputEvents(tagsInput);
+
+        // Simulate Enter key press to submit all tags at once
+        tagsInput.dispatchEvent(new KeyboardEvent('keydown', {
+          key: 'Enter',
+          code: 'Enter',
+          keyCode: 13,
+          which: 13,
+          bubbles: true
+        }));
+
+        return true;
+      } else {
+        console.error('Invalid tags format received:', tags);
+        return false;
       }
-      return true;
     }
     return false;
   },

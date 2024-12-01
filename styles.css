@@ -1,4 +1,10 @@
 /* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap');
+
+* {
+  font-family: 'Geist', sans-serif;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -57,11 +63,19 @@
 }
 
 .enhance-dialog {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.1);
+  position: fixed;
+  background: white;
   z-index: 10000;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.enhance-dialog.show {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .dialog-content {
@@ -69,13 +83,13 @@
   padding: 16px;
   border-radius: 8px;
   width: 320px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dialog-content h3 {
   margin: 0 0 12px 0;
   color: #333;
   font-size: 16px;
+  font-weight: 500;
 }
 
 .prompt-input {
@@ -88,6 +102,7 @@
   resize: vertical;
   font-size: 13px;
   line-height: 1.4;
+  font-family: 'Geist', sans-serif;
 }
 
 .prompt-input:focus {
@@ -212,6 +227,22 @@
 .keep-existing-checkbox label {
   font-size: 13px;
   color: #333;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dialog-backdrop.show {
+  opacity: 1;
 }
 
 @keyframes spin {
