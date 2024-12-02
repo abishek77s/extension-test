@@ -9,15 +9,14 @@ const tagInjector = {
       console.log('Injecting tags button...');
       
       const tagsContainer = uiControls.createButtonContainer();
-      const tagsButton = uiControls.createButton('Generate Tags', () => 
-        messageHandler.handleGeneration(tagsButton, 'Tags')
-      );
+      const enhanceButton = buttonManager.createEnhanceButton('Enhance Tags', 'Tags');
+      const generateButton = buttonManager.createGenerateButton('Generate Tags', 'Tags');
+      const buttonGroup = buttonManager.createButtonGroup(enhanceButton, generateButton);
 
-      tagsContainer.appendChild(tagsButton);
-      tagsInput.parentElement.insertBefore(tagsContainer, tagsInput);
+      tagsInput.parentElement.insertBefore(buttonGroup, tagsInput);
       
       this.isTagsInjected = true;
-      console.log('Tags button injected successfully');
+      console.log('Tags buttons injected successfully');
     }
   },
 

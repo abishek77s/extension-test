@@ -37,19 +37,12 @@ function showSuccessMessage(button, message, isError = false) {
 function setButtonLoading(button, isLoading) {
   if (!button) return;
   
-  const span = button.querySelector('span');
-  const svg = button.querySelector('svg');
-  
-  if (!span || !svg) return;
-  
   if (isLoading) {
-    button.disabled = true;
-    span.textContent = 'Processing...';
-    svg.classList.add('spin');
+    button.classList.add('loading');
+    button.style.pointerEvents = 'none';
   } else {
-    button.disabled = false;
-    span.textContent = button.dataset.originalContent;
-    svg.classList.remove('spin');
+    button.classList.remove('loading');
+    button.style.pointerEvents = 'auto';
   }
 }
 
