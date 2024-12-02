@@ -39,9 +39,17 @@ function setButtonLoading(button, isLoading) {
   
   if (isLoading) {
     button.classList.add('loading');
+    const svg = button.querySelector('svg');
+    if (svg) {
+      svg.style.opacity = '0';
+    }
     button.style.pointerEvents = 'none';
   } else {
     button.classList.remove('loading');
+    const svg = button.querySelector('svg');
+    if (svg) {
+      svg.style.opacity = '1';
+    }
     button.style.pointerEvents = 'auto';
   }
 }

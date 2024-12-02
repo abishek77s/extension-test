@@ -31,6 +31,7 @@
   padding-left: 16px;
   cursor: pointer;
   order: -1;
+  position: relative;
 }
 
 .prompt-button .icon {
@@ -39,6 +40,22 @@
 
 .prompt-button:hover .icon {
   transform: scale(1.03);
+}
+
+.prompt-button.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: #ED2163;
+  border-right-color: #ED2163;
+  border-radius: 50%;
+  animation: loading-spinner 0.8s linear infinite;
+}
+
+.prompt-button.loading svg {
+  opacity: 0;
 }
 
 .gen-button {
@@ -50,6 +67,7 @@
   padding: 8px 8px;
   margin: 2px;
   cursor: pointer;
+  position: relative;
 }
 
 .gen-button .icon {
@@ -58,6 +76,22 @@
 
 .gen-button:hover .icon {
   transform: rotate(-16deg);
+}
+
+.gen-button.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: #ffffff;
+  border-right-color: #ffffff;
+  border-radius: 50%;
+  animation: loading-spinner 0.8s linear infinite;
+}
+
+.gen-button.loading svg {
+  opacity: 0;
 }
 
 .regen-button {
@@ -69,6 +103,7 @@
   padding: 8px 8px;
   margin: 2px;
   cursor: pointer;
+  position: relative;
 }
 
 .regen-button .circle {
@@ -78,6 +113,27 @@
 
 .regen-button:hover .circle {
   transform: rotate(20deg);
+}
+
+.regen-button.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: #ffffff;
+  border-right-color: #ffffff;
+  border-radius: 50%;
+  animation: loading-spinner 0.8s linear infinite;
+}
+
+.regen-button.loading svg {
+  opacity: 0;
+}
+
+@keyframes loading-spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Toast Styles */
