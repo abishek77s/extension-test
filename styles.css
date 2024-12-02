@@ -39,11 +39,11 @@
 }
 
 .prompt-button .icon {
-  transition: transform 0.9s ease;
+  transition: transform 0.3s ease;
 }
 
 .prompt-button:hover .icon {
-  transform: scale(1.03);
+  transform: scale(1.08);
 }
 
 .prompt-button.loading::after {
