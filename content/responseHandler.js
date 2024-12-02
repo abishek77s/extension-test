@@ -30,7 +30,9 @@ const responseHandler = {
     if (tagsInput) {
       if (typeof tags === 'string') {
         // First, clear any existing value
+   
         tagsInput.value = '';
+      
         this.triggerInputEvents(tagsInput);
 
         // Get all tags as a single string

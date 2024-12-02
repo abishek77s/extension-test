@@ -59,7 +59,9 @@ async function handleEnhancement(button, contentType) {
 
     const inputSelector = contentType === 'Title'
       ? domUtils.SELECTORS.TITLE_INPUT
-      : domUtils.SELECTORS.DESCRIPTION_INPUT;
+      : contentType === "Description"
+      ? domUtils.SELECTORS.DESCRIPTION_INPUT
+      : domUtils.SELECTORS.TAGS_INPUT
     const inputElement = domUtils.querySelector(inputSelector);
     
     if (!inputElement) {
@@ -77,9 +79,11 @@ async function handleEnhancement(button, contentType) {
         
         if (response.success) {
           const updateSuccess = contentType === 'Title'
-            ? await responseHandler.updateTitleField(response.data)
-            : await responseHandler.updateDescriptionField(response.data, keepExisting);
-
+          ? await responseHandler.updateTitleField(response.data)
+          : contentType === 'Description'
+          ? await responseHandler.updateDescriptionField(response.data, keepExisting)
+          : await responseHandler.updateTagsField(response.data);
+      
           if (updateSuccess) {
             toastManager.show(`${contentType} enhanced successfully!`, 'success');
           } else {
@@ -130,7 +134,7 @@ async function handleRegeneration(button, contentType) {
           updateSuccess = await responseHandler.updateDescriptionField(response.data, false);
           break;
         case 'tags':
-          updateSuccess = await responseHandler.updateTagsField(response.data);
+          updateSuccess = await responseHandler.updateTagsField(response.data, false);
           break;
       }
 
