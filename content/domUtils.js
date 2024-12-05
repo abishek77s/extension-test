@@ -1,3 +1,4 @@
+// DOM utility functions
 const SELECTORS = {
   TITLE_INPUT: '#textbox.style-scope.ytcp-social-suggestions-textbox',
   DESCRIPTION_INPUT: '#description-textarea #textbox.style-scope.ytcp-social-suggestions-textbox',
@@ -25,7 +26,10 @@ function createElement(tag, className, innerHTML = '') {
 
 function getVideoLink() {
   const linkElement = querySelector(SELECTORS.VIDEO_LINK);
-  return linkElement ? linkElement.href : null;
+  console.log('Found video link element:', linkElement);
+  const href = linkElement ? linkElement.href : null;
+  console.log('Extracted video URL:', href);
+  return href;
 }
 
 window.domUtils = {
