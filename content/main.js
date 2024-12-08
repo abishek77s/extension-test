@@ -33,6 +33,10 @@ function initialize() {
     if (domUtils.querySelector(domUtils.SELECTORS.TITLE_INPUT)) {
       console.log('Title input detected, injecting controls...');
       injectControls();
+      
+      // Inject CC status bar
+      window.ccStatusBar.injectStatusBar();
+      
       obs.disconnect();
     }
   });

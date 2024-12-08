@@ -9,6 +9,7 @@
       "js": [
         "content/injectStyles.js",
         "content/utils/cacheUtils.js",
+        "content/utils/statusUtils.js",
         "content/utils/captionsUtils.js",
         "content/domUtils.js",
         "content/uiControls.js",
@@ -18,6 +19,7 @@
         "content/responseHandler.js",
         "content/buttonManager.js",
         "content/messageHandler.js",
+        "content/components/ccStatusBar.js",
         "content/tagInjector.js",
         "content/main.js"
       ]
