@@ -20,7 +20,28 @@ function injectControls() {
     // Insert containers
     titleInput.parentElement.insertBefore(titleContainer, titleInput);
     descriptionInput.parentElement.insertBefore(descContainer, descriptionInput);
+
+    // Inject CC status bar
+    window.ccStatusBar.injectStatusBar();
   }
+}
+
+function handleNavigation() {
+  // Clear any existing observers
+  if (window.currentObserver) {
+    window.currentObserver.disconnect();
+  }
+
+  const observer = new MutationObserver((mutations, obs) => {
+    if (domUtils.querySelector(domUtils.SELECTORS.TITLE_INPUT)) {
+      console.log('Title input detected, injecting controls...');
+      injectControls();
+      obs.disconnect();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+  window.currentObserver = observer;
 }
 
 function initialize() {
@@ -29,20 +50,14 @@ function initialize() {
   // Clear expired cache on initialization
   window.cacheUtils.clearExpiredCache();
   
-  const observer = new MutationObserver((mutations, obs) => {
-    if (domUtils.querySelector(domUtils.SELECTORS.TITLE_INPUT)) {
-      console.log('Title input detected, injecting controls...');
-      injectControls();
-      
-      // Inject CC status bar
-      window.ccStatusBar.injectStatusBar();
-      
-      obs.disconnect();
-    }
-  });
+  // Initial injection
+  handleNavigation();
 
-  observer.observe(document.body, { childList: true, subtree: true });
-  tagInjector.setupShowMoreObserver();
+  // Setup navigation observer
+  window.navigationUtils.setupNavigationObserver(() => {
+    console.log('URL changed, reinitializing controls...');
+    handleNavigation();
+  });
 }
 
 initialize();

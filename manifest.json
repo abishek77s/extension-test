@@ -9,6 +9,7 @@
       "js": [
         "content/injectStyles.js",
         "content/utils/cacheUtils.js",
+        "content/utils/navigationUtils.js",
         "content/utils/statusUtils.js",
         "content/utils/captionsUtils.js",
         "content/domUtils.js",
