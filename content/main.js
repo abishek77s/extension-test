@@ -26,6 +26,9 @@ function injectControls() {
 function initialize() {
   console.log('Initializing YouTube Studio Enhancer...');
   
+  // Clear expired cache on initialization
+  window.cacheUtils.clearExpiredCache();
+  
   const observer = new MutationObserver((mutations, obs) => {
     if (domUtils.querySelector(domUtils.SELECTORS.TITLE_INPUT)) {
       console.log('Title input detected, injecting controls...');

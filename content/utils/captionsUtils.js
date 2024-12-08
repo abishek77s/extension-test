@@ -2,6 +2,15 @@
 const captionsUtils = {
   async fetchYoutubeCaptions(videoId) {
     try {
+      console.log('Checking cache for video ID:', videoId);
+      
+      // Check cache first
+      const cachedCaptions = window.cacheUtils.getCachedCaptions(videoId);
+      if (cachedCaptions) {
+        console.log('Using cached captions for video ID:', videoId);
+        return cachedCaptions;
+      }
+
       console.log('Requesting captions for video ID:', videoId);
       
       const response = await chrome.runtime.sendMessage({
@@ -13,7 +22,10 @@ const captionsUtils = {
         throw new Error(response.error || 'Failed to fetch captions');
       }
 
-      console.log('Successfully received captions from background script');
+      // Cache the fetched captions
+      window.cacheUtils.setCachedCaptions(videoId, response.data);
+
+      console.log('Successfully received and cached captions from background script');
       return response.data;
     } catch (error) {
       console.error('Error fetching YouTube captions:', error);

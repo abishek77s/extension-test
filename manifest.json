@@ -8,6 +8,7 @@
       "matches": ["https://studio.youtube.com/*"],
       "js": [
         "content/injectStyles.js",
+        "content/utils/cacheUtils.js",
         "content/utils/captionsUtils.js",
         "content/domUtils.js",
         "content/uiControls.js",
@@ -31,7 +32,7 @@
       "matches": ["<all_urls>"]
     }
   ],
-  "permissions": ["scripting", "activeTab"],
+  "permissions": ["scripting", "activeTab", "storage"],
   "host_permissions": [
     "https://www.youtube.com/*"
   ]

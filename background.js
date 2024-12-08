@@ -1,6 +1,6 @@
 // background.js
 
-const endpoint = "http://34.204.68.143"
+const endpoint = "http://127.0.0.1"
 
 
 
