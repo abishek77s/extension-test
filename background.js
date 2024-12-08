@@ -1,4 +1,9 @@
 // background.js
+
+const endpoint = "http://34.204.68.143"
+
+
+
 chrome.runtime.onInstalled.addListener(() => {
   console.log('YouTube Studio Enhancer extension installed');
 });
@@ -113,7 +118,7 @@ async function handleContentGeneration({ prompt, choice, cc }) {
   });
 
   try {
-    const response = await fetch('http://127.0.0.1:8080/process', {
+    const response = await fetch(`${endpoint}:8080/process`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: prompt, choice, cc })
@@ -140,7 +145,7 @@ async function handleContentEnhancement({ text, contentType, userPrompt }) {
   console.log('Handling content enhancement:', { text, contentType, userPrompt });
 
   try {
-    const response = await fetch('http://127.0.0.1:8080/enhance', {
+    const response = await fetch(`${endpoint}:8080/enhance`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, contentType, user_prompt: userPrompt })
