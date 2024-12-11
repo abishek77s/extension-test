@@ -1,3 +1,4 @@
+// Main entry point
 function injectControls() {
   const titleInput = domUtils.querySelector(domUtils.SELECTORS.TITLE_INPUT);
   const descriptionInput = domUtils.querySelector(domUtils.SELECTORS.DESCRIPTION_INPUT);
@@ -24,6 +25,11 @@ function injectControls() {
     // Inject CC status bar
     window.ccStatusBar.injectStatusBar();
   }
+
+  // Check if we're on the comments page and inject the summarize button
+  if (window.location.href.includes('/comments/')) {
+    window.commentSummarizer.injectSummarizeButton();
+  }
 }
 
 function handleNavigation() {
@@ -33,8 +39,11 @@ function handleNavigation() {
   }
 
   const observer = new MutationObserver((mutations, obs) => {
-    if (domUtils.querySelector(domUtils.SELECTORS.TITLE_INPUT)) {
-      console.log('Title input detected, injecting controls...');
+    const shouldInject = domUtils.querySelector(domUtils.SELECTORS.TITLE_INPUT) || 
+                        window.location.href.includes('/comments/');
+    
+    if (shouldInject) {
+      console.log('Injecting controls...');
       injectControls();
       obs.disconnect();
     }

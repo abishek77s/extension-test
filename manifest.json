@@ -12,6 +12,7 @@
         "content/utils/navigationUtils.js",
         "content/utils/statusUtils.js",
         "content/utils/captionsUtils.js",
+        "content/utils/commentUtils.js",
         "content/domUtils.js",
         "content/uiControls.js",
         "content/apiService.js",
@@ -21,6 +22,7 @@
         "content/buttonManager.js",
         "content/messageHandler.js",
         "content/components/ccStatusBar.js",
+        "content/components/commentSummarizer.js",
         "content/tagInjector.js",
         "content/main.js"
       ]
@@ -35,8 +37,14 @@
       "matches": ["<all_urls>"]
     }
   ],
-  "permissions": ["scripting", "activeTab", "storage"],
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage",
+    "cookies"
+  ],
   "host_permissions": [
-    "https://www.youtube.com/*"
+    "https://www.youtube.com/*",
+    "https://studio.youtube.com/*"
   ]
 }
