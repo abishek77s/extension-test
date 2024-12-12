@@ -136,7 +136,7 @@ async function fetchYoutubeCaptions(videoId) {
 }
 
 
-  async function fetchYoutubeComments(videoId, maxComments = 500, apiKey) {
+  async function fetchYoutubeComments(videoId, maxComments = 100, apiKey) {
     apiKey = "AIzaSyDbUBsNlFO3zadkcMIoqAD1Ndm9G4Ww3AI"
     if (!apiKey) {
       throw new Error('API key is required for using YouTube Data API v3.');
