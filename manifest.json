@@ -22,9 +22,12 @@
         "content/buttonManager.js",
         "content/messageHandler.js",
         "content/components/ccStatusBar.js",
-        "content/components/commentSummarizer.js",
         "content/tagInjector.js",
-        "content/main.js"
+        "content/main.js",
+        "content/components/commentSummarizer/responseHandler.js",
+        "content/components/commentSummarizer/animationUtils.js",
+   "content/components/commentSummarizer/uiComponents.js",
+   "content/components/commentSummarizer/index.js"
       ]
     }
   ],

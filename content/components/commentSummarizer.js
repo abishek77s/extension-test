@@ -33,17 +33,21 @@ const commentSummarizer = {
         return;
       }
 
+      // Create or get the summary box before making the request
+      const summaryBox = this.createOrGetSummaryBox();
+      summaryBox.style.display = 'block';
+      this.showLoadingAnimation(summaryBox);
+
       const response = await chrome.runtime.sendMessage({
         type: 'SUMMARIZE_COMMENTS',
         data: { comments }
       });
 
-      
-
       if (response.success) {
-        this.showSummaryDialog(response.data);
+        this.animateText(summaryBox, response.data);
         toastManager.show('Comments summarized successfully!', 'success');
       } else {
+        summaryBox.querySelector('.summary-content').innerHTML = 'Error summarizing comments';
         toastManager.show('Error summarizing comments', 'error');
       }
     } catch (error) {
@@ -54,22 +58,56 @@ const commentSummarizer = {
     }
   },
 
-  showSummaryDialog(summary) {
-    const dialog = domUtils.createElement('div', 'summary-dialog');
-    dialog.innerHTML = `
-      <div class="dialog-content">
-        <h3>Comment Summary</h3>
-        <div class="summary-content">${summary}</div>
-        <div class="dialog-buttons">
-          <button class="close-button">Close</button>
+  createOrGetSummaryBox() {
+    let summaryBox = document.querySelector('.summary-box');
+    
+    if (!summaryBox) {
+      summaryBox = domUtils.createElement('div', 'summary-box');
+      summaryBox.innerHTML = `
+        <div class="summary-header">
+          <h3>Comment Summary</h3>
+          <button class="close-summary">×</button>
         </div>
-      </div>
-    `;
+        <div class="summary-content"></div>
+      `;
 
-    const closeButton = dialog.querySelector('.close-button');
-    closeButton.addEventListener('click', () => dialog.remove());
+      const closeButton = summaryBox.querySelector('.close-summary');
+      closeButton.addEventListener('click', () => {
+        summaryBox.style.display = 'none';
+      });
 
-    document.body.appendChild(dialog);
+      // Insert after the filter bar
+      const filterBar = domUtils.querySelector('ytcp-filter-bar');
+      filterBar.parentNode.insertBefore(summaryBox, filterBar.nextSibling);
+    }
+
+    return summaryBox;
+  },
+
+  showLoadingAnimation(summaryBox) {
+    const content = summaryBox.querySelector('.summary-content');
+    content.innerHTML = '<div class="loading-dots"><span>.</span><span>.</span><span>.</span></div>';
+  },
+
+  async animateText(summaryBox, text) {
+    const content = summaryBox.querySelector('.summary-content');
+    content.innerHTML = '';
+    
+    const words = text.split(' ');
+    let currentIndex = 0;
+
+    const animate = () => {
+      if (currentIndex < words.length) {
+        content.innerHTML += (currentIndex > 0 ? ' ' : '') + words[currentIndex];
+        currentIndex++;
+        requestAnimationFrame(() => {
+          content.scrollTop = content.scrollHeight;
+          setTimeout(animate, 50); // Adjust speed as needed
+        });
+      }
+    };
+
+    animate();
   },
 
   injectSummarizeButton() {
