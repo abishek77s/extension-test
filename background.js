@@ -78,7 +78,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ success: false, error: error.message });
       });
     return true; // Will respond asynchronously
-  }
+}
 });
 
 async function fetchYoutubeCaptions(videoId) {
@@ -278,7 +278,7 @@ async function handleCommentsSummarization({ comments }) {
     if (response.ok) {
       const data = await response.json();
       console.log('Summarized comments data:', data);
-      return data.result;
+      return data.response;
     } else {
       const errorText = await response.text();
       console.error('Error summarizing comments:', errorText);

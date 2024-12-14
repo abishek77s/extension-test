@@ -3,8 +3,8 @@ const cacheUtils = {
   CACHE_PREFIX: 'yt_studio_enhancer_',
   CACHE_EXPIRY: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
 
-  getCacheKey(videoId) {
-    return `${this.CACHE_PREFIX}cc_${videoId}`;
+  getCacheKey(Id) {
+    return `${this.CACHE_PREFIX}cc_${Id}`;
   },
 
   setCachedCaptions(videoId, captions) {
@@ -33,6 +33,35 @@ const cacheUtils = {
 
     return captions;
   },
+
+// setCachedSummarize(sumId, content){
+//   const cacheData = {
+//     timestamp: Date.now(),
+//     captions: content
+//   };
+//   localStorage.setItem(this.getCacheKey(sumId), JSON.stringify(cacheData));
+
+// },
+
+// getCachedSummarize(sumId){
+//   const cacheKey = this.getCacheKey(sumId);
+//   const cachedData = localStorage.getItem(cacheKey);
+  
+//   if (!cachedData) {
+//     return null;
+//   }
+
+//   const { timestamp, captions } = JSON.parse(cachedData);
+//   const isExpired = Date.now() - timestamp > this.CACHE_EXPIRY;
+
+//   if (isExpired) {
+//     localStorage.removeItem(cacheKey);
+//     return null;
+//   }
+
+//   return captions;
+
+// },
 
   clearExpiredCache() {
     const keys = Object.keys(localStorage);

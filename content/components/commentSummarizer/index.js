@@ -1,5 +1,5 @@
 // Main comment summarizer component
-const commentSummarizer = {
+const commentSummarizerModule = {
   async handleSummarization(button) {
     try {
       if (!button) {
@@ -8,7 +8,7 @@ const commentSummarizer = {
       }
 
       uiControls.setButtonLoading(button, true);
-      
+   
       const videoId = window.navigationUtils.extractVideoIdFromUrl();
       if (!videoId) {
         toastManager.show('Could not find video ID', 'error');
@@ -27,21 +27,33 @@ const commentSummarizer = {
       const contentElement = summaryBox.querySelector('.summary-content');
       window.commentSummarizerAnimationUtils.showLoadingAnimation(contentElement);
 
+   
       const response = await chrome.runtime.sendMessage({
         type: 'SUMMARIZE_COMMENTS',
         data: { comments }
       });
-
-      if (response && response.success && response.data) {
-        await window.commentSummarizerAnimationUtils.animateText(contentElement, response.data);
-        toastManager.show('Comments summarized successfully!', 'success');
-      } else {
-        contentElement.innerHTML = 'Error summarizing comments';
-        toastManager.show('Error summarizing comments', 'error');
+    
+      // Explicit response checking
+      if (response === undefined) {
+        console.error('No response received from background script');
+        console.error('Possible issues:');
+        console.error('1. Background script not running');
+        console.error('2. Message listener not set up');
+        console.error('3. sendResponse not called');
+        throw new Error('No response from background script');
       }
+      
+
+      const rawData = window.commentSummarizerResponseHandler.validateResponse(response);
+      const processedData = window.commentSummarizerResponseHandler.processResponseData(rawData);
+    
+      // Animate the processed text
+      await window.commentSummarizerAnimationUtils.animateText(contentElement, processedData);
+      toastManager.show('Comments summarized successfully!', 'success');
     } catch (error) {
-      console.error('Error handling summarization:', error);
-      toastManager.show('Unexpected error summarizing comments', 'error');
+      console.error('Error processing response:', error);
+      contentElement.innerHTML = `Error: ${error.message}`;
+      toastManager.show('Error processing summary', 'error');
     } finally {
       uiControls.setButtonLoading(button, false);
     }
@@ -66,4 +78,5 @@ const commentSummarizer = {
   }
 };
 
-window.commentSummarizer = commentSummarizer;
+// Export the module
+window.commentSummarizer = commentSummarizerModule;
