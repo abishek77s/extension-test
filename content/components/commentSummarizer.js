@@ -1,4 +1,7 @@
 // Comment summarizer component
+
+
+
 const commentSummarizer = {
   createSummarizeButton() {
     const button = domUtils.createElement('a', 'summarize-button');
@@ -123,5 +126,6 @@ const commentSummarizer = {
     filterBar.appendChild(button);
   }
 };
+
 
 window.commentSummarizer = commentSummarizer;

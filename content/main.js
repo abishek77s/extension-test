@@ -1,12 +1,10 @@
-// Main entry point
 function injectControls() {
   const titleInput = domUtils.querySelector(domUtils.SELECTORS.TITLE_INPUT);
   const descriptionInput = domUtils.querySelector(domUtils.SELECTORS.DESCRIPTION_INPUT);
+ 
 
   if (titleInput && descriptionInput) {
-    if (window.location.href.includes('/video/')) {
-      window.ccStatusBar.injectStatusBar();
-    }
+    // Create title buttons
     const titleContainer = uiControls.createButtonContainer();
     const titleGenerate = buttonManager.createGenerateButton('Title', 'Title');
     const titleEnhance = buttonManager.createEnhanceButton('Title', 'Title');
@@ -23,17 +21,16 @@ function injectControls() {
     // Insert containers
     titleInput.parentElement.insertBefore(titleContainer, titleInput);
     descriptionInput.parentElement.insertBefore(descContainer, descriptionInput);
-  // Check if we're on the comments page and inject the summarize button
-    
-    tagInjector.setupShowMoreObserver()
-    window.ccStatusBar.injectStatusBar();
-  }
 
-  // Check if we're on the comments page and inject the summarize button
-  if (window.location.href.includes('/comments/')) {
-    window.commentSummarizer.injectSummarizeButton();
+    window.tagInjector.setupShowMoreObserver();
+    window.ccStatusBar.injectStatusBar();
+    if (window.location.href.includes('/comments/')) {
+      window.commentSummarizer.injectSummarizeButton();
+    }
   }
 }
+
+
 
 function handleNavigation() {
   // Clear any existing observers
